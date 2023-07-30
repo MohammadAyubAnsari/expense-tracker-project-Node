@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form onsubmit="signup(event)">
+      <label>Name</label>
+      <input type="text" id="Name" name="name" placeholder="Name" required />
+      <label>Email</label>
+      <input
+        type="email"
+        id="Email"
+        name="email"
+        placeholder="Email"
+        required
+      />
+      <label>Password</label>
+      <input
+        type="text"
+        id="Password"
+        name="password"
+        placeholder="Password"
+        required
+      />
+      <label>Phonenumber</label>
+      <input
+        type="tel"
+        id="phno"
+        name="phonenumber"
+        placeholder="Phonenumber"
+        required
+      />
+      <button>SignUp</button>
+    </form>
+    <a href="../Login/login.html">Existing User - Login</a>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
+    <!-- <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+      integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+      crossorigin="anonymous"
+    ></script> -->
+
+    <script src="./signup.js"></script>
+  </body>
+</html>
