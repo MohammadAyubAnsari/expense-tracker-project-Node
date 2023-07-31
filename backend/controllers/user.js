@@ -1,4 +1,5 @@
 const User = require("../models/users");
+const bcrypt = require("bcrypt");
 
 function isStringInvalid(string) {
   if (string == undefined || string.length === 0) {
@@ -11,18 +12,35 @@ function isStringInvalid(string) {
 exports.signUp = async (req, res, next) => {
   try {
     const { name, email, password, phNo } = req.body;
-
+    console.log("email", email);
     if (
       isStringInvalid(name) ||
       isStringInvalid(email) ||
       isStringInvalid(password) ||
       isStringInvalid(phNo)
     ) {
-      return res.status(400).json({ err: "Bad parameters" });
+      return res
+        .status(400)
+        .json({ err: "Bad parameters , something is missing" });
     }
-
-    const data = await User.create({ name, email, password, phNo });
-    res.status(201).json({ newExpenseDetail: data });
+    const saltround = 10;
+    bcrypt.hash(password, saltround, async (err, hash) => {
+      console.log(err);
+      const user = await User.findAll({ where: { email: email } });
+      console.log(user);
+      if (user.length > 0) {
+        res.status(200).json({ message: "User already exist" });
+      } else {
+        console.log(req.body);
+        const data = await User.create({
+          name: name,
+          email: email,
+          password: hash,
+          phNo: phNo,
+        });
+        res.status(201).json({ message: "Successfully created new user" });
+      }
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: err });
@@ -40,16 +58,24 @@ exports.login = async (req, res) => {
     }
     console.log(password);
     const user = await User.findAll({ where: { email } });
+
     if (user.length > 0) {
-      if (user[0].password === password) {
-        res
-          .status(200)
-          .json({ success: true, message: "User logged in successfully" });
-      } else {
-        return res
-          .status(400)
-          .json({ success: false, message: "Password is incorrect" });
-      }
+      bcrypt.compare(password, user[0].password, async (err, result) => {
+        if (err) {
+          return res
+            .status(500)
+            .json({ success: false, message: "Something went wrong" });
+        }
+        if (result === true) {
+          return res
+            .status(201)
+            .json({ success: true, message: "Loggedin Successfully" });
+        } else {
+          return res
+            .status(400)
+            .json({ success: false, message: "Password is incorrect" });
+        }
+      });
     } else {
       return res
         .status(404)
