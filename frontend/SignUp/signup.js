@@ -17,7 +17,7 @@ async function signup(event) {
     );
     if (response.status === 201) {
       // redirecting the user on successful login
-      window.location.href = "../Login/login.html";
+      // window.location.href = "../Login/login.html";
     } else {
       throw new Error("Failed to login");
     }
