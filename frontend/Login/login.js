@@ -15,9 +15,10 @@ async function login(event) {
 
     if (response.status === 201) {
       alert(response.data.message);
-      window.location.href = "../Login/login.html";
+      window.location.href = "../ExpenseTracker/expense.html";
     } else {
       // alert(response.data.message);
+      console.log(JSON.stringify(err));
       throw new Error(response.data.message);
     }
   } catch (err) {

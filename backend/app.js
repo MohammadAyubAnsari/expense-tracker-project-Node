@@ -15,6 +15,7 @@ app.use(cors());
 // app.set("views", "views");
 
 const userRoutes = require("./routes/user");
+const expenseRoutes = require("./routes/expense");
 
 app.use(bodyParser.json({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
@@ -22,6 +23,7 @@ app.use(express.static(path.join(__dirname, "public")));
 const { userInfo } = require("os");
 
 app.use("/user", userRoutes);
+app.use("/expense", expenseRoutes);
 // app.use(errorController.get404);
 
 sequelize

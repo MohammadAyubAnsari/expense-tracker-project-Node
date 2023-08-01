@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense</title>
+  </head>
+  <body>
+    <form onsubmit="addNewExpense(event)">
+      <label for="expenseamount">Choose expense amount:</label>
+      <input type="number" name="expenseamount" required />
+      <label for="description">Choose description</label>
+      <input type="text" name="description" required />
+      <label for="category">choose a category:</label>
+      <select name="category" id="category">
+        <option value="fuel">fuel</option>
+        <option value="food">food</option>
+        <option value="electricity">electricity</option>
+        <option value="Movie">Movie</option>
+      </select>
+      <button>Add Expense</button>
+    </form>
+    <ul id="listOfExpenses"></ul>
+    <script src="./expense.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.1/axios.min.js"></script>
+  </body>
+</html>
