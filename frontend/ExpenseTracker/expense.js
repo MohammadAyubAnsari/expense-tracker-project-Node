@@ -7,24 +7,33 @@ function addNewExpense(event) {
     category: event.target.category.value,
   };
   console.log(expenseDetails);
+  const token = localStorage.getItem("token");
   axios
-    .post("http://localhost:3000/expense/addexpense", expenseDetails)
+    .post("http://localhost:3000/expense/addexpense", expenseDetails, {
+      headers: { Authorization: token },
+    })
     .then((response) => {
       addNewExpensetoUI(response.data.expense);
     })
     .catch((err) => {
-      // throw new Error(err);
+      showError(err);
     });
 }
 
 window.addEventListener("DOMContentLoaded", async (response) => {
-  try {
-    axios
-      .get("http://localhost:3000/expense/getexpenses")
-      .response.data.expenses.forEach((expense) => {
+  const token = localStorage.getItem("token");
+  axios
+    .get("http://localhost:3000/expense/getexpenses", {
+      headers: { Authorization: token },
+    })
+    .then((response) => {
+      response.data.expenses.forEach((expense) => {
         addNewExpensetoUI(expense);
       });
-  } catch (err) {}
+    })
+    .catch((err) => {
+      showError(err);
+    });
 });
 
 function addNewExpensetoUI(expense) {
@@ -43,14 +52,21 @@ function addNewExpensetoUI(expense) {
 }
 
 function deleteExpense(event, expenseid) {
+  const token = localStorage.getItem("token");
   axios
-    .delete(`http://localhost:3000/expense/deleteexpense/${expenseid}`)
+    .delete(`http://localhost:3000/expense/deleteexpense/${expenseid}`, {
+      headers: { Authorization: token },
+    })
     .then(() => {
       removeExpensefromUI(expenseid);
     })
     .catch((err) => {
       // showError(err);
     });
+}
+
+function showError(err) {
+  document.body.innerHTML += `<div style="color:red;">${err}</div>`; // changes made
 }
 
 function removeExpensefromUI(expenseid) {

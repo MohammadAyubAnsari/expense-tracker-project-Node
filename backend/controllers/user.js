@@ -1,5 +1,6 @@
 const User = require("../models/users");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 function isStringInvalid(string) {
   if (string == undefined || string.length === 0) {
@@ -47,6 +48,10 @@ exports.signUp = async (req, res, next) => {
   }
 };
 
+function generateAccessToken(id, name) {
+  return jwt.sign({ userId: id, name: name }, "supersecretsecret");
+}
+
 exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -69,7 +74,11 @@ exports.login = async (req, res) => {
         if (result === true) {
           return res
             .status(201)
-            .json({ success: true, message: "Loggedin Successfully" });
+            .json({
+              success: true,
+              message: "Loggedin Successfully",
+              token: generateAccessToken(user[0].id, user[0].name),
+            });
         } else {
           return res
             .status(400)

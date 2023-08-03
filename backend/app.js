@@ -1,30 +1,22 @@
 const path = require("path");
 
 const express = require("express");
-const bodyParser = require("body-parser");
-// const errorController = require("./controllers/error");
-
+const User = require("./models/users");
+const Expense = require("./models/expense");
 const sequelize = require("./utils/database");
-
 var cors = require("cors");
 const app = express();
-
-app.use(cors());
-
-// app.set("view engine", "ejs");
-// app.set("views", "views");
-
 const userRoutes = require("./routes/user");
 const expenseRoutes = require("./routes/expense");
 
-app.use(bodyParser.json({ extended: false }));
-app.use(express.static(path.join(__dirname, "public")));
-
-const { userInfo } = require("os");
+app.use(cors());
+app.use(express.json());
 
 app.use("/user", userRoutes);
 app.use("/expense", expenseRoutes);
-// app.use(errorController.get404);
+
+User.hasMany(Expense);
+Expense.belongsTo(User);
 
 sequelize
   .sync()

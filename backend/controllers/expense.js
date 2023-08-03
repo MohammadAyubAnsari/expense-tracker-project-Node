@@ -9,7 +9,7 @@ exports.addexpense = (req, res) => {
       .json({ success: false, message: "Parameters missing" });
   }
 
-  Expense.create({ expenseamount, description, category })
+  Expense.create({ expenseamount, description, category, userId: req.user.id })
     .then((expense) => {
       return res.status(201).json({ expense, success: true });
     })
@@ -19,7 +19,7 @@ exports.addexpense = (req, res) => {
 };
 
 exports.getexpenses = (req, res) => {
-  Expense.findAll()
+  Expense.findAll({ where: { userId: req.user.id } })
     .then((expenses) => {
       return res.status(200).json({ expenses, success: true });
     })
@@ -33,7 +33,7 @@ exports.deleteExpense = (req, res) => {
   if (expenseid == undefined || expenseid === 0) {
     res.status(400).json({ success: false, message: "Bad Parameters" });
   }
-  Expense.destroy({ where: { id: expenseid } })
+  Expense.destroy({ where: { id: expenseid, userId: req.user.id } })
     .then(() => {
       return res
         .status(200)
