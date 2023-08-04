@@ -49,7 +49,11 @@ exports.signUp = async (req, res, next) => {
 };
 
 function generateAccessToken(id, name) {
-  return jwt.sign({ userId: id, name: name }, "supersecretsecret");
+  return jwt.sign(
+    { userId: id, name: name },
+    process.env.JWTtokenSceret
+    // "supersecretsecret"
+  );
 }
 
 exports.login = async (req, res) => {
@@ -72,13 +76,11 @@ exports.login = async (req, res) => {
             .json({ success: false, message: "Something went wrong" });
         }
         if (result === true) {
-          return res
-            .status(201)
-            .json({
-              success: true,
-              message: "Loggedin Successfully",
-              token: generateAccessToken(user[0].id, user[0].name),
-            });
+          return res.status(201).json({
+            success: true,
+            message: "Loggedin Successfully",
+            token: generateAccessToken(user[0].id, user[0].name),
+          });
         } else {
           return res
             .status(400)

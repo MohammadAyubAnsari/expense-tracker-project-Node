@@ -13,9 +13,9 @@ async function login(event) {
       loginDetails
     );
 
+    localStorage.setItem("token", response.data.token);
     if (response.status === 201) {
       alert(response.data.message);
-      localStorage.setItem("token", response.data.token);
       window.location.href = "../ExpenseTracker/expense.html";
     } else {
       // alert(response.data.message);
