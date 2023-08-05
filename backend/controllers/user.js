@@ -48,13 +48,13 @@ exports.signUp = async (req, res, next) => {
   }
 };
 
-function generateAccessToken(id, name) {
+exports.generateAccessToken = (id, name, ispremiumuser) => {
   return jwt.sign(
-    { userId: id, name: name },
+    { userId: id, name: name, ispremiumuser },
     process.env.JWTtokenSceret
     // "supersecretsecret"
   );
-}
+};
 
 exports.login = async (req, res) => {
   try {
@@ -79,7 +79,11 @@ exports.login = async (req, res) => {
           return res.status(201).json({
             success: true,
             message: "Loggedin Successfully",
-            token: generateAccessToken(user[0].id, user[0].name),
+            token: this.generateAccessToken(
+              user[0].id,
+              user[0].name,
+              user[0].ispremiumuser
+            ),
           });
         } else {
           return res

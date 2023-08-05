@@ -11,6 +11,7 @@ const dotenv = require("dotenv");
 const userRoutes = require("./routes/user");
 const purchaseRoutes = require("./routes/purchase");
 const expenseRoutes = require("./routes/expense");
+const premiumFeatureRoutes = require("./routes/premiumFeature");
 const app = express();
 dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use("/user", userRoutes);
 app.use("/expense", expenseRoutes);
 app.use("/purchase", purchaseRoutes);
+app.use("/premium", premiumFeatureRoutes);
 
 User.hasMany(Expense);
 Expense.belongsTo(User);
