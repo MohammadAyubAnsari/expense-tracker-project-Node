@@ -1,4 +1,5 @@
 const Expense = require("../models/expense");
+const User = require("../models/users");
 
 exports.addexpense = (req, res) => {
   const { expenseamount, description, category } = req.body;
