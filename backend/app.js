@@ -12,6 +12,7 @@ const userRoutes = require("./routes/user");
 const purchaseRoutes = require("./routes/purchase");
 const expenseRoutes = require("./routes/expense");
 const premiumFeatureRoutes = require("./routes/premiumFeature");
+const resetPasswordRoutes = require("./routes/resetpassword");
 const app = express();
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use("/user", userRoutes);
 app.use("/expense", expenseRoutes);
 app.use("/purchase", purchaseRoutes);
 app.use("/premium", premiumFeatureRoutes);
+app.use("/password", resetPasswordRoutes);
 
 User.hasMany(Expense);
 Expense.belongsTo(User);
